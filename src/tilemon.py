@@ -4,7 +4,7 @@ Data Structure for a Tilemon
 '''
 import math
 
-from genome_decode import decodeGenome
+from .genome_decode import decodeGenome
 
 REPRODUCE_FAILURE_PROB = 0.05
 
@@ -17,7 +17,8 @@ class Tilemon():
 
 		# Dependent data
 		self.numTiles = self.getNumTiles()
-		self.lifeSpan = self.getLifeSpan()
+		self.naturalLifeSpan = self.getLifeSpan()
+		self.actualLifeSpan = self.naturalLifeSpan
 		self.probReproduceTurn = self.getProbReproduceTurn()
 		self.rotateTime = self.getRotateTime()
 		self.reproduceTime = self.getReproduceTime()
@@ -62,7 +63,7 @@ class Tilemon():
 		return
 
 
-# Test
-t1 = Tilemon(dna='cctggtttgggatctgtcaaagtcaacgtaccaactagtctccaacgcatcgtaggggccttatgcgtatggctcacaaaactaatgcgagggctctctaatacggccactcacgctaatcggcgatcctggttacgtca')
-t1.loc = [5,5]
-t1.getNumTiles()
+# # Test
+# t1 = Tilemon(dna='cctggtttgggatctgtcaaagtcaacgtaccaactagtctccaacgcatcgtaggggccttatgcgtatggctcacaaaactaatgcgagggctctctaatacggccactcacgctaatcggcgatcctggttacgtca')
+# t1.loc = [5,5]
+# t1.getNumTiles()

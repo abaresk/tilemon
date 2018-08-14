@@ -5,7 +5,7 @@ Tilemon Generator
 import random
 
 tideBank = ['t','c','a','g']
-seqLength = 160
+seqLength = 200
 
 def generate():
 	length = random.randint(seqLength//2,seqLength)
