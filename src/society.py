@@ -23,14 +23,19 @@ Data Structure for the all Tilemons in the world
 '''
 
 import uuid
+import random
 from collections import defaultdict
 
 from . import tilemon
-from . import genome_gen
-from .genome_compare import levDistance
+from . import mutate
+from . import genome_gen as gg
+from . import genome_compare as gc
 
 # Constants
 LEVDISTANCE_THRESHOLD = 10
+
+# MUTATION_RATE should be 0.001!!
+MUTATION_RATE = 0.99
 
 
 class Society():
@@ -43,10 +48,7 @@ class Society():
 		self.beginSociety()
 		return
 
-
-	def generateTilemon(self):
-		return tilemon.Tilemon(dna=genome_gen.generate())
-
+	# Initiate the society with a single member
 	def beginSociety(self):
 		tile = self.generateTilemon()
 		tileId = str(uuid.uuid4())
@@ -57,9 +59,15 @@ class Society():
 		self.species2id[speciesId].append(tileId)
 		return
 
+	# Do a reproduction cycle for
+	def reproduceSociety(self):
+		pass
+
+	# Write code to kill old creatures
+
 
 	def addTilemon(self, parentId):
-		childmon = reproduce(parentId)
+		childmon = self.reproduce(parentId)
 		childId = str(uuid.uuid4())
 
 		self.id[childId] = childmon
@@ -82,6 +90,7 @@ class Society():
 			# if it doesn't match with some
 			if diffSpecies:	
 				sameSpecies = set(self.species2id[species]) - diffSpecies
+				sameSpecies.add(childId)	# add the child as a member of new species
 
 				# Create new species, add members to it, and add it to members
 				newSpeciesId = str(uuid.uuid4())
@@ -90,23 +99,39 @@ class Society():
 				for memberId in sameSpecies:
 					self.id2species[memberId].append(newSpeciesId)
 
-			# !!! Figure out how to add child info !!!
+			# else add kid to parent's species
 			else:
-				self.species2id[parentSpecies].append(childId)
-				self.id2species[chil]
+				self.species2id[species].append(childId)
+				self.id2species[childId].append(species)
 		return
 
 
 	def reproduce(self, parentId):
 		# return the child Tilemon
-		pass
+		genome = self.id[parentId].dna
+		childGenome = genome
+
+		# TODO: figure out how to generate the child location
+		parentLoc = self.id[parentId].loc
+
+		# Mutation
+		if random.random() < MUTATION_RATE:
+			childGenome = mutate.mutateGenome(genome)
+
+		childmon = tilemon.Tilemon(dna=childGenome)
+
+		return childmon
+
+
+	def generateTilemon(self):
+		return tilemon.Tilemon(dna=gg.generate())
 
 
 	def _genomeDistance(self, id1, id2):
 		genome1 = self.id[id1].dna
 		genome2 = self.id[id2].dna
 
-		return levDistance(genome1, genome2)
+		return gc.levDistance(genome1, genome2)
 
 
 
