@@ -19,8 +19,12 @@ def insertMutate(genome):
 	return genome[:i] + random.choice(nucleotideBank) + genome[i:]
 
 def deleteMutate(genome):
-	i = random.randint(0, len(genome)-1)
-	return genome[:i] + genome[i+1:]
+	if len(genome) > 1:
+		i = random.randint(0, len(genome)-1)
+		return genome[:i] + genome[i+1:]
+	else:
+		return genome
+		
 
 # duplicate up to 50%
 def duplicateMutate(genome):
@@ -76,4 +80,6 @@ def invertMutate(genome):
 
 def mutateGenome(genome):
 	mutationTypes = [pointMutate, insertMutate, deleteMutate, duplicateMutate, bulkDeleteMutate, invertMutate]
-	return random.choice(mutationTypes)(genome)
+	chosenMutate = random.choice(mutationTypes)
+	print(chosenMutate) # for debugging
+	return chosenMutate(genome)

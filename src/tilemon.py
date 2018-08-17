@@ -45,7 +45,7 @@ class Tilemon():
 		return 14 + self.getNumTiles()
 
 	def getProbReproduceTurn(self):
-		return 1 - math.pow(REPRODUCE_FAILURE_PROB, 1 / (self.getLifeSpan()))
+		return 1.05 / self.getLifeSpan()	# reproduces ~1.1 times per lifetime
 
 	def getRotateTime(self):
 		return math.ceil(math.log(self.getNumTiles())/math.log(4))
@@ -61,6 +61,9 @@ class Tilemon():
 		self.rotateTime = self.getRotateTime()
 		self.reproduceTime = self.getReproduceTime()
 		return
+
+	def increaseAge(self):
+		self.age += 1
 
 
 # # Test
