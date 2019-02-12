@@ -1,10 +1,6 @@
-from context import src
 
 from tilemon_generate import *
 from src.society import *
-
-import sys
-
 
 # Write function to check that kin are all alive
 def allAlive(soc):
@@ -31,13 +27,13 @@ soc = Society()
 og = list(soc.id.keys())
 
 # soc.addTilemon(og[0])
-c = 1000
+c = 250
 for x in range(10000):
 	if (x+1)%c == 0:
 		c = c
 		allAlive(soc)
-		printAges(soc)
 		print(len(soc.id))
+		printAges(soc)
 	soc.turnCycle()
 	# if len(soc.id) == 1:
 	print(x)
@@ -45,5 +41,3 @@ for x in range(10000):
 print()
 # for memberId in list(soc.id.keys()):
 # 	soc.addTilemon(memberId)
-
-

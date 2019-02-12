@@ -35,7 +35,7 @@ from . import genome_compare as gc
 LEVDISTANCE_THRESHOLD = 5	# maybe make lower
 
 # MUTATION_RATE should be 0.001!!
-MUTATION_RATE = 0.99
+MUTATION_RATE = 0.25
 
 
 class Society():

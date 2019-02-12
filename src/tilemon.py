@@ -2,11 +2,10 @@
 Data Structure for a Tilemon
 	Tilemon class stores the genetic code and location of a Tilemon
 '''
-import math
-
 from .genome_decode import decodeGenome
+from constants import *
 
-REPRODUCE_FAILURE_PROB = 0.05
+import math
 
 class Tilemon():
 	def __init__(self, dna = '', loc = [0,0], age = 0):
