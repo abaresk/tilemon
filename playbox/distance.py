@@ -4,7 +4,7 @@ from src.compare import GenomeCompare
 
 import matplotlib.pyplot as plt
 
-NUM_TRIALS = 100
+NUM_TRIALS = 500
 
 class DistanceTest():
     def __init__(self):

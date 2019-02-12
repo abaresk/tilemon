@@ -7,8 +7,8 @@ Compare the genomes of different tilemons
 from collections import defaultdict
 from collections import deque
 
-# Comment this out when removing levDistance
-import numpy as np
+# # Comment this out when removing levDistance
+# import numpy as np
 
 class GenomeCompare():
 	def __init__(self, genome1, genome2):
@@ -24,7 +24,7 @@ class GenomeCompare():
 
 	def initDict(self, genome):
 		dict = defaultdict(deque)
-		for i, ntide in enumerate(genome.genome):
+		for i, ntide in enumerate(genome.dna):
 			dict[ntide].append(i)
 		return dict
 
@@ -55,25 +55,25 @@ class GenomeCompare():
 					dist += self.genMap2[ntide].popleft()
 		return dist
 
-	# TODO: this should be deleted
-	def levDistance(self):
-		m = len(self.genome1)+1
-		n = len(self.genome2)+1
-		dist = np.zeros((m,n)) 	# distance matrix
-								# dist[self.genome1][self.genome2]
-
-		for i in range(1,m):
-			dist[i][0] = i
-
-		for j in range(1,n):
-			dist[0][j] = j
-
-		for j in range(1,n):
-			for i in range(1,m):
-				cost = 0 if self.genome1.genome[i-1] == self.genome2.genome[j-1] else 1
-				dist[i][j] = min(dist[i-1][j] + 1, dist[i][j-1] + 1, dist[i-1][j-1] + cost)
-
-		return dist[m-1][n-1]
+	# # TODO: this should be deleted
+	# def levDistance(self):
+	# 	m = len(self.genome1)+1
+	# 	n = len(self.genome2)+1
+	# 	dist = np.zeros((m,n)) 	# distance matrix
+	# 							# dist[self.genome1][self.genome2]
+	#
+	# 	for i in range(1,m):
+	# 		dist[i][0] = i
+	#
+	# 	for j in range(1,n):
+	# 		dist[0][j] = j
+	#
+	# 	for j in range(1,n):
+	# 		for i in range(1,m):
+	# 			cost = 0 if self.genome1.genome[i-1] == self.genome2.genome[j-1] else 1
+	# 			dist[i][j] = min(dist[i-1][j] + 1, dist[i][j-1] + 1, dist[i-1][j-1] + cost)
+	#
+	# 	return dist[m-1][n-1]
 
 # # Test
 # a = 'tttagcttgtttaagacgttagcgtatcccttttaacaagccgcaaggtcgaacgcatcctcgttctgacttgcccttgagattgtaattatgtatgtgtgctagctgcctaaatgccgaggcacatgctcgagttgactccatcaaggttatgcactttacgaacgcgaggccttttacgtaagggtttgaagactcacaaagactgaggcttagtctacctttccactgcgcggctgaggtggctcgagcatcttgcaagagagtgtggcaggtgtcgatcggttagatccaagagcctagatctactggaatcgtcgcgaatccggttacctcacctccgttacacgccagtggaagagactaagaaacagcgtcaatcacgcccggtgtcatctctctcaccgcgatcggggtgctcttaataatcaaatcacggcggaaggggcaggactggttcgtcgccgaacggaagcaccattcggaaataatcttcgtgaacatgacaccagaccatcgtcgatggcctactacgccgtaatatcttcaaactgcctcacacagacccataacgtcttggtaataaactttagactcttaacaaagggaatatatttaggaacgctttccggtttcaagtaacggacgatagggctcaatacaaccgtacccccccggcttcgcgatgggtattaagcagcgtttatgcgctgactaattagtagttccgctcgatgcatagccagacacggaaaatcgattaggctatgcgatgatcgtcacggcggttaataggctgcctacgcttggaagcctcctggtcccctccgtccttctgaggtgtttcgattagctcgcattatacaggaaccgtcatcgataccatccgttcaccggacgtcgacgaaattagcaggaagacggctaagcttccacacagggggctcgatgtcggggtgtcttcgggcgttcatgtcgtttatcgagtaccgactcatttcgagtaccacagaatctttaaggcttggcctacgtatccctcacactcttacattatgaggccctcgcacaaagtgggtccctcaaggcatatagggccggcaaaacaatatcccacagcgtctcaccgctccagggtaatgtacttctctgctacagggttgcttttccaaaagattaaggatgcgacgttctgtcgagtcagaccattacgtcaggcagcctcatgcgcattctgccaacataccataagacctcgattcgctattgaagggcgtactccggaaagaatgtacaaaccgaaggttctgggcataagaccgcaattgctaagtaaccacgtcccctactattccatatatggtcgtcataacatgttgctcgccacgacaacgttttgaagccggggtctaagccatcgtacgacggagagctcttgaacgtgcggacatatgggcctttgtggaggaagccctgaggcagaccgattactgcacaccgcaattagacctcgcgcggcgtatcgttcatgcgtgtcacctaaagaccaaaggcgacgctgcaagtcggtgggaagaagtggcgctgcgcttttggaaccaccttaatcgtgagtgacacttgccggaacaaaactctgccaggccaccccttacacctgctgcgggattccaccgtcagagattatacatataaacttatactaacaatcatccctctcgggctcctgtgacataagctatttcatagtggt'
