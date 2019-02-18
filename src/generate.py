@@ -6,7 +6,7 @@ from src.genome import Genome
 
 import random
 
-seqLength = 500		# start small!!
+seqLength = 6		# start small!!
 
 class Generator():
 	def __init__(self):

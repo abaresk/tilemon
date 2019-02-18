@@ -6,10 +6,14 @@ from src.mutate import Mutator
 class Genome():
 	def __init__(self, dna=''):
 		self.dna = dna
-		self.mutator = Mutator(genome)
+		self.mutator = Mutator(dna)
+		return
 
 	def __len__(self):
 		return len(self.dna)
+
+	def __repr__(self):
+		return self.dna
 
 	def reverse(self):
 		self.update(self.dna[::-1])
@@ -20,5 +24,5 @@ class Genome():
 
 	def update(self, dna):
 		self.dna = dna
-		self.mutator = Mutator(genome)
+		self.mutator = Mutator(dna)
 		return

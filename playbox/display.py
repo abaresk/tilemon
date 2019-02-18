@@ -2,62 +2,27 @@
 Display a given tilemon
 '''
 
-import copy
-
-from genome_gen import generate
-from genome_decode import decodeGenome
+from src.point import *
 
 
-SCREEN_SIZE = 20
+SCREEN_SIZE = 30
 
 BLANK = '  '
 START = 'TT'
 BODY = '++'
 
+def display(tilemon):
+	points = tilemon.getShape()
+	printPoints(points)
+	return
 
-### GRAPHING
-
-def getOrigin():
-	return SCREEN_SIZE // 2
-
-def centerPoints(pointsZip):
-	zipped = zip(pointsZip[0], pointsZip[1])
-	points = []
-	origin = getOrigin()
-
-
-	for x, y in zipped:
-		points.append((x + origin, y + origin))
-
-	return points
-
-
-def printGraph(pointsZip):
-	points = centerPoints(pointsZip)
-	origin = getOrigin()
-
-	for row in reversed(range(SCREEN_SIZE)):
+def printPoints(points):
+	for row in range(SCREEN_SIZE):
 		for col in range(SCREEN_SIZE):
-			if row == origin and col == origin:
+			if row == SCREEN_SIZE // 2 and col == SCREEN_SIZE // 2:
 				print(START, end='')
-			elif (col,row) in points:
+			elif (Point(row, col) - Point(SCREEN_SIZE // 2, SCREEN_SIZE // 2)).toTuple() in points:
 				print(BODY, end='')
 			else:
 				print(BLANK, end='')
 		print()
-
-	return
-
-
-# Main
-seq = generate()
-print(seq)
-
-zipped = decodeGenome(seq)
-
-zipcp = copy.deepcopy(zipped)
-
-print(list(zip(zipcp[0], zipcp[1])))
-# print(list(centerPoints(zipped)))
-
-printGraph(zipped)

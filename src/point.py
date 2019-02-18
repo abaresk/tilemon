@@ -4,3 +4,15 @@ class Point():
 		self.x = x
 		self.y = y
 		return
+
+	def __add__(self, other):
+		return Point(self.x + other.x, self.y + other.y)
+
+	def __sub__(self, other):
+		return Point(self.x - other.x, self.y - other.y)
+
+	def __repr__(self):
+		return '(' + str(self.x) + ', ' + str(self.y) + ')'
+
+	def toTuple(self):
+		return (self.x, self.y)
