@@ -5,7 +5,7 @@ Display a given tilemon
 from src.point import *
 
 
-SCREEN_SIZE = 30
+SCREEN_SIZE = 20
 
 BLANK = '  '
 START = 'TT'

@@ -1,0 +1,23 @@
+'''
+Data Structure for the all Tilemons in the world
+
+	* Each Tilemon keeps track of its own:
+		+ age
+		+ location
+		+ genetic code
+
+	* Society keeps a record of:
+		+ all living creatures
+		+ all species listings
+
+	* World will use the information in Society to find life statistics,
+	  such as:
+	  	+ how much surface area of each creature is covered
+	  	+ how much space each creature has around it
+
+	* WorldEngine will use Society to do large-scale operations, such as:
+		+ update Society with new creatures / dead creatures
+		+ move species members closer together
+		+ reproduction (hold onto id of parent)
+		+ kill creatures
+'''

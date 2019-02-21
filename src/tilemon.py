@@ -9,10 +9,12 @@ from src.point import Point
 import math
 
 class Tilemon():
-	def __init__(self, genome=Genome(), loc=Point(0, 0), age=0):
+	def __init__(self, genome=Genome(), birthday=0, loc=Point(0, 0)):
 		self.loc = loc
-		self.age = age
+		self.birthday = birthday
 		self.genome = genome
+		self.kin = set()
+		self.kin.add(self)
 
 		# Dependent data
 		self.updateGenome(genome)
@@ -26,6 +28,15 @@ class Tilemon():
 		self.probReproduce = self.calcProbReproduce()
 		self.gestatePeriod = self.calcGestatePeriod()
 		self.rotatePeriod = self.calcRotatePeriod()
+		return
+
+	def addKin(self, mon):
+		self.kin.add(mon)
+		return
+
+	def removeKin(self, mon):
+		assert(mon in self.kin)
+		self.kin.remove(mon)
 		return
 
 	def getShape(self):
@@ -61,20 +72,10 @@ class Tilemon():
 		return MINIMUM_LIFE_SPAN + self.numTiles
 
 	def calcProbReproduce(self):
-		return 1.05 / self.lifespan	# reproduces ~1.1 times per lifetime
+		return 1.05 / self.lifespan	# reproduces ~1.05 times per lifetime
 
 	def calcRotatePeriod(self):
 		return math.ceil(math.log(self.numTiles)/math.log(4))
 
 	def calcGestatePeriod(self):
 		return 1 + math.ceil(math.log(len(self.genome))/math.log(8))
-
-	def increaseAge(self):
-		self.age += 1
-		return
-
-
-# # Test
-# t1 = Tilemon(dna='cctggtttgggatctgtcaaagtcaacgtaccaactagtctccaacgcatcgtaggggccttatgcgtatggctcacaaaactaatgcgagggctctctaatacggccactcacgctaatcggcgatcctggttacgtca')
-# t1.loc = [5,5]
-# t1.getNumTiles()
