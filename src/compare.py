@@ -19,12 +19,14 @@ class GenomeCompare():
 		self.genMap2 = self.initDict(self.genome2)
 		return
 
+	# @profile
 	def initDict(self, genome):
 		dict = defaultdict(deque)
 		for i, ntide in enumerate(genome.dna):
 			dict[ntide].append(i)
 		return dict
 
+	# @profile
 	def distance(self):
 		dist = 0
 		self.makeGenMaps()
@@ -39,6 +41,7 @@ class GenomeCompare():
 		dist /= len(self.genome1) * (len(self.genome1) + 1) + len(self.genome2) * (len(self.genome2) + 1)
 		return dist
 
+	# @profile
 	def getRankDistance(self):
 		dist = 0
 		for ntide in self.genMap1:

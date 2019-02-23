@@ -28,14 +28,15 @@ class Society():
 		return
 
 	def createId(self):
-		id = random.randint(0, 1_000)
+		id = random.randint(0, MAX_TILEMON)
 		while id in self.id:
-			id = random.randint(0, 1_000)
+			id = random.randint(0, MAX_TILEMON)
 		return id
 
 	# Everything that happens in a given turn (besides movement)
 	# Age everyone then replicate (so babies start at 0). Then kill those
 	# that exceeded their age limit
+	# @profile
 	def advanceCycle(self):
 		self.cycle += 1
 		self.reproduceCycle()
@@ -52,22 +53,23 @@ class Society():
 		return
 
 	def addTilemon(self, parent):
-		child = self.replicate(parent)
+		child, mutated = self.replicate(parent)
 		childId = self.createId()
 		self.id[childId] = child
-		self.updateKin(child, parent)
+		self.updateKin(child, parent, mutated)
 		return
 
 	def replicate(self, parent):
 		genome = parent.genome
-		if random.random() < MUTATION_RATE:
+		rand = random.random()
+		if rand < MUTATION_RATE:
 			genome = Genome(Mutator(genome.dna).mutate())
-		return Tilemon(genome, self.cycle)
+		return Tilemon(genome, self.cycle), rand < MUTATION_RATE
 
-	def updateKin(self, child, parent):
+	def updateKin(self, child, parent, mutated):
 		for member in list(parent.kin):
 			gencmp = Gencmp(child.genome, member.genome)
-			if gencmp.distance() < DISTANCE_THRESHOLD:
+			if not mutated or gencmp.distance() < DISTANCE_THRESHOLD:
 				child.addKin(member)
 				member.addKin(child)
 			# else:

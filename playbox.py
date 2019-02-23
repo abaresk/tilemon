@@ -1,6 +1,6 @@
-
-from playbox.distance import DistanceTest
-from playbox.display import *
+#
+# from playbox.distance import DistanceTest
+# from playbox.display import *
 from playbox.societyTest import SocietyTest
 
 from src.generate import Generator
@@ -18,7 +18,8 @@ from src.tilemon import Tilemon
 
 CYCLE_LENGTH = 50
 stest = SocietyTest()
-for i in range(100):
+while input('Continue? ') != 'n':
     stest.runCycles(CYCLE_LENGTH)
     stest.allAlive()
     stest.printKinLengths()
+stest.printAllGenomes()

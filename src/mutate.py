@@ -77,7 +77,6 @@ class Mutator():
 
 		return self.dna
 
-
 	def mutate(self):
 		fxns = [self.pointMutate, self.insertMutate, self.deleteMutate, self.duplicateMutate, self.bulkDeleteMutate, self.invertMutate]
 		fxn = random.choice(fxns)
