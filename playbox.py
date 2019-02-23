@@ -16,7 +16,9 @@ from src.tilemon import Tilemon
 # print(tm.shape)
 # display(tm)
 
-CYCLE_LENGTH = 10
+CYCLE_LENGTH = 50
 stest = SocietyTest()
 for i in range(100):
     stest.runCycles(CYCLE_LENGTH)
+    stest.allAlive()
+    stest.printKinLengths()

@@ -1,6 +1,8 @@
 
 from src.constants import *
 from src.tilemon import Tilemon
+from src.mutate import Mutator
+from src.genome import Genome
 from src.generate import Generator
 from src.compare import GenomeCompare as Gencmp
 
@@ -18,7 +20,6 @@ class Society():
 
 		self.initSociety()
 		return
-
 
 	# Initiate the society with a single member
 	def initSociety(self):
@@ -57,7 +58,7 @@ class Society():
 	def replicate(self, parent):
 		genome = parent.genome
 		if random.random() < MUTATION_RATE:
-			genome = genome.mutate()
+			genome = Genome(Mutator(genome.dna).mutate())
 		return Tilemon(genome, self.cycle)
 
 	def updateKin(self, child, parent):
@@ -67,7 +68,7 @@ class Society():
 				child.addKin(member)
 				member.addKin(child)
 			# else:
-				# print('new species') # for debugging
+			# 	print('new species') # for debugging
 		return
 
 	# Do a killing cycle over the society

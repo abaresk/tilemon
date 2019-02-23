@@ -73,13 +73,13 @@ class Mutator():
 			leftend = i + leftlen if i + leftlen < j else j
 			rightend = j + rightlen if j + rightlen < genlen else genlen
 
-			dna = self.dna[:i] + self.dna[j:rightend] + self.dna[leftend:j] + self.dna[i:leftend] + self.dna[rightend:]
+			self.dna = self.dna[:i] + self.dna[j:rightend] + self.dna[leftend:j] + self.dna[i:leftend] + self.dna[rightend:]
 
-		return dna
+		return self.dna
 
 
 	def mutate(self):
 		fxns = [self.pointMutate, self.insertMutate, self.deleteMutate, self.duplicateMutate, self.bulkDeleteMutate, self.invertMutate]
 		fxn = random.choice(fxns)
-		print(fxn) # for debugging
+		# print(fxn) # for debugging
 		return fxn()
