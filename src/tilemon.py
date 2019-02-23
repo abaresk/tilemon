@@ -9,12 +9,11 @@ from src.point import Point
 import math
 
 class Tilemon():
-	def __init__(self, genome=Genome(), birthday=0, loc=Point(0, 0)):
-		self.loc = loc
+	def __init__(self, genome=Genome(), birthday=0, pos=Point(0, 0)):
+		self.pos = pos
 		self.birthday = birthday
 		self.genome = genome
-		self.kin = set()
-		self.kin.add(self)
+		self.kin = {self}
 
 		# Dependent data
 		self.updateGenome(genome)

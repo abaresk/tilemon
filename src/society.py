@@ -6,7 +6,6 @@ from src.genome import Genome
 from src.generate import Generator
 from src.compare import GenomeCompare as Gencmp
 
-import uuid
 import random
 from collections import defaultdict
 
@@ -24,11 +23,15 @@ class Society():
 	# Initiate the society with a single member
 	def initSociety(self):
 		mon = self.createTilemon()
-		monId = str(uuid.uuid4())
-
+		monId = self.createId()
 		self.id[monId] = mon
-		# self.id2kin[monId].append(tileId)
 		return
+
+	def createId(self):
+		id = random.randint(0, 1_000)
+		while id in self.id:
+			id = random.randint(0, 1_000)
+		return id
 
 	# Everything that happens in a given turn (besides movement)
 	# Age everyone then replicate (so babies start at 0). Then kill those
@@ -50,7 +53,7 @@ class Society():
 
 	def addTilemon(self, parent):
 		child = self.replicate(parent)
-		childId = str(uuid.uuid4())
+		childId = self.createId()
 		self.id[childId] = child
 		self.updateKin(child, parent)
 		return
