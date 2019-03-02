@@ -2,9 +2,8 @@
 from src.constants import *
 from src.tilemon import Tilemon
 from src.mutate import Mutator
-from src.genome import Genome
-from src.generate import Generator
-from src.compare import GenomeCompare as Gencmp
+from src.generate import *
+from src.compare import *
 
 import random
 from collections import defaultdict
@@ -14,9 +13,6 @@ class Society():
 	def __init__(self):
 		self.id = {}	# -> maps a randomly-generated id to a Tilemon
 		self.cycle = 0
-
-		self.generator = Generator()
-
 		self.initSociety()
 		return
 
@@ -33,9 +29,6 @@ class Society():
 			id = random.randint(0, MAX_TILEMON)
 		return id
 
-	# Everything that happens in a given turn (besides movement)
-	# Age everyone then replicate (so babies start at 0). Then kill those
-	# that exceeded their age limit
 	# @profile
 	def advanceCycle(self):
 		self.cycle += 1
@@ -47,8 +40,8 @@ class Society():
 	# Do a reproduction cycle over the society
 	def reproduceCycle(self):
 		for mon in list(self.id.values()):
-			rando = random.random()
-			if rando < mon.probReproduce:
+			rand = random.random()
+			if rand < mon.probReproduce:
 				self.addTilemon(mon)
 		return
 
@@ -60,23 +53,22 @@ class Society():
 		return
 
 	def replicate(self, parent):
-		genome = parent.genome
+		dna = parent.dna
 		rand = random.random()
 		if rand < MUTATION_RATE:
-			genome = Genome(Mutator(genome.dna).mutate())
-		return Tilemon(genome, self.cycle), rand < MUTATION_RATE
+			dna = Mutator(dna).mutate()
+		return Tilemon(dna, self.cycle), rand < MUTATION_RATE
 
 	def updateKin(self, child, parent, mutated):
 		for member in list(parent.kin):
-			gencmp = Gencmp(child.genome, member.genome)
-			if not mutated or gencmp.distance() < DISTANCE_THRESHOLD:
+			gencmp = GenCmpLev(child.dna, member.dna)
+			if not mutated or gencmp.distance() < gencmp.threshold:
 				child.addKin(member)
 				member.addKin(child)
 			# else:
 			# 	print('new species') # for debugging
 		return
 
-	# Do a killing cycle over the society
 	def killSociety(self):
 		for monId, mon in list(self.id.items()):
 			if self.calcMonAge(mon) > mon.lifespan:
@@ -93,7 +85,7 @@ class Society():
 		return
 
 	def createTilemon(self):
-		return Tilemon(self.generator.generate())
+		return Tilemon(generateDNA())
 
 	def printGen(self):
 		for memberId in self.id:

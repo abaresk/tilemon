@@ -3,8 +3,7 @@
 # from playbox.display import *
 from playbox.societyTest import SocietyTest
 
-from src.generate import Generator
-from src.genome import Genome
+from src.generate import *
 from src.tilemon import Tilemon
 
 # dtest = DistanceTest()
@@ -16,7 +15,7 @@ from src.tilemon import Tilemon
 # print(tm.shape)
 # display(tm)
 
-CYCLE_LENGTH = 50
+CYCLE_LENGTH = 1000    # make like 50
 stest = SocietyTest()
 while input('Continue? ') != 'n':
     stest.runCycles(CYCLE_LENGTH)

@@ -3,24 +3,23 @@ Data Structure for a Tilemon
 	Tilemon class stores the genetic code, shape and location of a Tilemon
 '''
 from src.constants import *
-from src.genome import Genome
 from src.point import Point
 
 import math
 
 class Tilemon():
-	def __init__(self, genome=Genome(), birthday=0, pos=Point(0, 0)):
+	def __init__(self, dna='', birthday=0, pos=Point(0, 0)):
 		self.pos = pos
 		self.birthday = birthday
-		self.genome = genome
+		self.dna = dna
 		self.kin = {self}
 
 		# Dependent data
-		self.updateGenome(genome)
+		self.updateGenome(dna)
 		return
 
-	def updateGenome(self, genome):
-		self.genome = genome
+	def updateGenome(self, dna):
+		self.dna = dna
 		self.shape = self.getShape()
 		self.numTiles = len(self.shape)
 		self.lifespan = self.calcLifespan()
@@ -41,8 +40,8 @@ class Tilemon():
 	def getShape(self):
 		path = [Point(0, 0)]
 		points = set([p.toTuple() for p in path])
-		for i in range(len(self.genome) // 2):
-			x, y = self.genome.dna[2*i], self.genome.dna[2*i+1]
+		for i in range(len(self.dna) // 2):
+			x, y = self.dna[2*i], self.dna[2*i+1]
 			if x != y:
 				if x == 't':
 					delta = 1 if y == 'c' else (0 if y == 'a' else -1)
@@ -77,4 +76,4 @@ class Tilemon():
 		return math.ceil(math.log(self.numTiles)/math.log(4))
 
 	def calcGestatePeriod(self):
-		return 1 + math.ceil(math.log(len(self.genome))/math.log(8))
+		return 1 + math.ceil(math.log(len(self.dna))/math.log(8))

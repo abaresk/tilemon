@@ -1,6 +1,6 @@
 
 from src.society import Society
-from src.compare import GenomeCompare as Gencmp
+from src.compare import *
 
 class SocietyTest():
 	def __init__(self):
@@ -27,19 +27,26 @@ class SocietyTest():
 	def printKin(self, id):
 		return [key for member in self.soc.id[id].kin for key, val in self.soc.id.items() if val == member]
 
-	def printKinDistance(self, id):
+	def printKinDistanceLev(self, id):
 		kin = self.printKin(id)
-		return {member: self.printGenomeDistance(id, member) for member in kin}
+		return {member: self.printLevDistance(id, member) for member in kin}
 
-	def printGenomeDistance(self, id1, id2):
-		return Gencmp(self.soc.id[id1].genome, self.soc.id[id2].genome).distance()
+	def printKinDistanceRank(self, id):
+		kin = self.printKin(id)
+		return {member: self.printRankDistance(id, member) for member in kin}
+
+	def printLevDistance(self, id1, id2):
+		return GenCmpLev(self.soc.id[id1].dna, self.soc.id[id2].dna).distance()
+
+	def printRankDistance(self, id1, id2):
+		return GenCmpRank(self.soc.id[id1].dna, self.soc.id[id2].dna).distance()
 
 	def printGenome(self, id):
-		return self.soc.id[id].genome
+		return self.soc.id[id].dna
 
 	def printAllGenomes(self):
 		for mon in self.soc.id.values():
-			print(mon.genome)
+			print(mon.dna)
 		return
 
 	# Debugging shortucts: remove later -----------------
@@ -49,8 +56,11 @@ class SocietyTest():
 	def pk(self, id):
 		return self.printKin(id)
 
-	def pkd(self, id):
-		return self.printKinDistance(id)
+	def pkdl(self, id):
+		return self.printKinDistanceLev(id)
+
+	def pkdr(self, id):
+		return self.printKinDistanceRank(id)
 
 	def pgd(self, id1, id2):
 		return self.printGenomeDistance(id1, id2)

@@ -4,20 +4,23 @@ Compare the genomes of different tilemons
 	* This algorithm runs linearly, as opposed to standard Levenshtein Distance
 	* Reference: https://pdfs.semanticscholar.org/3208/ba4168dbd5b28669e66f427f94ea5f95d332.pdf
 '''
+from src.constants import *
+
 from collections import defaultdict
 from collections import deque
+import numpy as np
 
-class GenomeCompare():
-	def __init__(self, genome1, genome2):
-		self.genome1 = genome1
-		self.genome2 = genome2
+class GenCmp():
+	def __init__(self, dna1, dna2):
+		self.dna1 = dna1
+		self.dna2 = dna2
+
+class GenCmpRank(GenCmp):
+	def __init__(self, dna1, dna2):
+		GenCmp.__init__(dna1, dna2)
 		self.genMap1 = defaultdict(deque)
 		self.genMap2 = defaultdict(deque)
-
-	def makeGenMaps(self):
-		self.genMap1 = self.initDict(self.genome1)
-		self.genMap2 = self.initDict(self.genome2)
-		return
+		self.threshold = DISTANCE_THRESHOLD_RANK
 
 	# @profile
 	def initDict(self, genome):
@@ -32,13 +35,13 @@ class GenomeCompare():
 		self.makeGenMaps()
 		dist += self.getRankDistance()
 
-		self.genome1.reverse()
-		self.genome2.reverse()
+		self.dna1 = self.dna1[::-1]
+		self.dna2 = self.dna2[::-1]
 
 		self.makeGenMaps()
 		dist += self.getRankDistance()
 
-		dist /= len(self.genome1) * (len(self.genome1) + 1) + len(self.genome2) * (len(self.genome2) + 1)
+		dist /= len(self.dna1) * (len(self.dna1) + 1) + len(self.dna2) * (len(self.dna2) + 1)
 		return dist
 
 	# @profile
@@ -54,3 +57,27 @@ class GenomeCompare():
 				else:
 					dist += self.genMap2[ntide].popleft()
 		return dist
+
+class GenCmpLev(GenCmp):
+	def __init__(self, dna1, dna2):
+		GenCmp.__init__(self, dna1, dna2)
+		self.threshold = DISTANCE_THRESHOLD_LEV
+
+	def distance(self):
+		m = len(self.dna1)+1
+		n = len(self.dna2)+1
+		dist = np.zeros((m,n)) 	# distance matrix
+								# dist[str1][str2]
+
+		for i in range(1,m):
+			dist[i][0] = i
+
+		for j in range(1,n):
+			dist[0][j] = j
+
+		for j in range(1,n):
+			for i in range(1,m):
+				cost = 0 if self.dna1[i-1] == self.dna2[j-1] else 1
+				dist[i][j] = min(dist[i-1][j] + 1, dist[i][j-1] + 1, dist[i-1][j-1] + cost)
+
+		return dist[m-1][n-1]
